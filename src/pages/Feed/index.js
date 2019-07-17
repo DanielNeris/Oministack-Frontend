@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import api from '../../services/api';
+import io from 'socket.io-client';
 
 import more from '../../assets/more.svg';
 import like from '../../assets/like.svg';
@@ -15,6 +15,7 @@ class Feed extends Component {
     };
 
     componentDidMount() {
+        this.resgisterToSocket();
         this.loadFeed();
     }
 
@@ -28,6 +29,22 @@ class Feed extends Component {
             console.log(error);
         }
     };
+
+    resgisterToSocket = () => {
+        const socket = io('http://localhost:3333');
+
+        socket.on('post', newPost => {
+            this.setState({ feed: [newPost, ...this.state.feed] });
+        });
+
+        socket.on('like', likedPost => {
+            this.setState({ 
+                feed: this.state.feed.map(post => 
+                    post._id === likedPost._id ? likedPost : post
+                )
+            });
+        });
+    }
 
     hadleLike = async (id) => {
         try {
