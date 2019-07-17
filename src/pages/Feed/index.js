@@ -29,6 +29,14 @@ class Feed extends Component {
         }
     };
 
+    hadleLike = async (id) => {
+        try {
+            api.post(`posts/${id}/like`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     render() {
         const { feed } = this.state;
         return (
@@ -48,13 +56,15 @@ class Feed extends Component {
 
                         <footer>
                             <div className="actions">
-                                <img src={like} alt="" />
+                                <button type onClick={() => this.hadleLike(item._id)}>
+                                 <img src={like} alt="" />
+                                </button>
                                 <img src={comment} alt="" />
                                 <img src={send} alt="" />
                             </div>
 
-                            <strong>{item.likes} curtidas</strong>
-
+                             <strong>{item.likes} curtidas</strong>
+                            
                             <p>
                                 {item.description}
                                 <span>{item.hashtags}</span>
