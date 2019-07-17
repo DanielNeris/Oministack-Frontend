@@ -7,7 +7,7 @@ import like from '../../assets/like.svg';
 import comment from '../../assets/comment.svg';
 import send from '../../assets/send.svg';
 
-import './index.css';
+import './style.css';
 
 class Feed extends Component {
     state = {
@@ -34,7 +34,7 @@ class Feed extends Component {
         return (
             <section id="post-list">
                 { feed.map(item => (
-                    <article>
+                    <article key={item._id}>
                         <header>
                             <div className="user-info">
                                 <span>{item.author}</span>
@@ -56,7 +56,7 @@ class Feed extends Component {
                             <strong>{item.likes} curtidas</strong>
 
                             <p>
-                                {item.descriptions}
+                                {item.description}
                                 <span>{item.hashtags}</span>
                             </p>
                         </footer>
